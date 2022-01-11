@@ -1,4 +1,4 @@
-name: Publish package to the Maven Central Repository
+hname: Publish package to the Maven Central Repository
 on:
   push:
     branches: [ main ]
@@ -13,7 +13,7 @@ jobs:
       env:
         SUPER_SECRET: ${{ secrets.SIGNING_KEY_ID }}
       run: |
-        example-command "$SUPER_SECRET"
+        echo "$SUPER_SECRET"
   build:
     runs-on: ubuntu-20.04
     steps:
