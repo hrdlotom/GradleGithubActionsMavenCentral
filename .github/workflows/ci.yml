@@ -57,10 +57,6 @@ jobs:
       #Authorizing gradlew files
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-    
-      #Build project
-      - name: Build with Gradle
-        run: ./gradlew build
         
       #After decoding the secret key, place the file in ~ /. Gradle/ secring.gpg
       - name: Decode
