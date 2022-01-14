@@ -64,7 +64,7 @@ jobs:
           trap 'rm ~/.gradle/private.pgp' EXIT
           echo "${{ secrets.SIGNING_SECRET_KEY_RING_FILE }}" > ~/.gradle/private.pgp
           gpg --import --no-tty --batch --yes ~/.gradle/private.pgp
-          gpg --keyring secring.gpg --export-secret-keys > ~/.gnupg/secring.gpg
+          gpg --keyring secring.gpg --export-secret-keys --batch --pinentry-mode=loopback --passphrase  ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} > ~/.gnupg/secring.gpg
       
       #Publish project
       - name: Publish
