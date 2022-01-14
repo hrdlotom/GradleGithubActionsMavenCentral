@@ -63,7 +63,8 @@ jobs:
         run: |
           trap 'rm ~/.gradle/private.pgp' EXIT
           echo "${{ secrets.SIGNING_SECRET_KEY_RING_FILE }}" > ~/.gradle/private.pgp
-          gpg --import --no-tty --batch --yes ~/.gradle/private.pgp
+          gpg1 --import --no-tty --batch --yes ~/.gradle/private.pgp
+          ls -l ~/.gnupg
       
       #Publish project
       - name: Publish
