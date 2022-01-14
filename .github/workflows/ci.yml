@@ -61,7 +61,7 @@ jobs:
       #Decode the secret key
       - name: Decode
         run: |
-          trap '~/.gradle/private.pgp' EXIT
+          trap 'rm ~/.gradle/private.pgp' EXIT
           echo "${{ secrets.SIGNING_SECRET_KEY_RING_FILE }}" > ~/.gradle/private.pgp
           gpg --import --no-tty --batch --yes ~/.gradle/private.pgp
       
