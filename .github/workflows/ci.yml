@@ -100,7 +100,6 @@ jobs:
 
       #Close and Release project in Sonatype
       - name: Close and Release
-        if: "contains(github.event.head_commit.message, 'RELEASE')"
         run: ./gradlew closeAndReleaseRepository
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
