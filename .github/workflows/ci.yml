@@ -66,9 +66,18 @@ jobs:
           gpg --import --no-tty --batch --yes ~/.gradle/private.pgp
           gpg --keyring secring.gpg --export-secret-keys --batch --pinentry-mode=loopback --passphrase  ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} > ~/.gnupg/secring.gpg
       
+      #Modify gradle.build to accept env variables
+      - name: Modify gradle.build
+        run: |
+          sed -i 's/username findProperty("ossrhUsername")?: '\'''\''/username findProperty("ossrhUsername")?: System.getenv("OSSRH_USERNAME")/g' "build.gradle"
+          sed -i 's/password findProperty("ossrhPassword")?: '\'''\''/password findProperty("ossrhPassword")?: System.getenv("OSSRH_PASSWORD")/g' "build.gradle"
+
       #Publish project
       - name: Publish
         run: ./gradlew publish -PmySecureRepositoryUsername=${{ secrets.OSSRH_USERNAME }} -PmySecureRepositoryPassword=${{ secrets.OSSRH_PASSWORD }} -Psigning.keyId=${{ secrets.SIGNING_KEY_ID }} -Psigning.password=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} -Psigning.secretKeyRingFile=$(echo ~/.gnupg/secring.gpg)
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
 
   release:
     needs: publish
