@@ -124,6 +124,7 @@ jobs:
             packageGroup = \"io.github.hrdlotom\"
           }" >> "build.gradle"
           fi
+          cat "build.gradle"
 
       #Close and Release project in Sonatype
       - name: Close and Release
