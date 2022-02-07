@@ -112,17 +112,17 @@ jobs:
                   sed -i '/plugins {/ a\
                   id "io.codearte.nexus-staging" version "0.30.0"\n' "build.gradle"
                   if ! grep -q "plugins {" "./build.gradle"; then
-                          echo "plugins {\
-          \n\tid \"io.codearte.nexus-staging\" version \"0.30.0\"
-          \n}\n" >> ./build.gradle
+                          echo "plugins {
+            id \"io.codearte.nexus-staging\" version \"0.30.0\"
+          }" >> ./build.gradle
                   fi
                   # Inject plugin code
-                  echo "nexusStaging {\
-          \n\tserverUrl = \"https://s01.oss.sonatype.org/service/local/\"\
-          \n\tusername = findProperty(\"ossrhUsername\") ?: System.getenv(\"OSSRH_USERNAME\")\
-          \n\tpassword = findProperty(\"ossrhPassword\") ?: System.getenv(\"OSSRH_PASSWORD\")\
-          \n\tpackageGroup = \"io.github.hrdlotom\"\
-          \n}\n" >> "build.gradle"
+                  echo "nexusStaging {
+            serverUrl = \"https://s01.oss.sonatype.org/service/local/\"
+            username = findProperty(\"ossrhUsername\") ?: System.getenv(\"OSSRH_USERNAME\")
+            password = findProperty(\"ossrhPassword\") ?: System.getenv(\"OSSRH_PASSWORD\")
+            packageGroup = \"io.github.hrdlotom\"
+          }" >> "build.gradle"
           fi
 
       #Close and Release project in Sonatype
