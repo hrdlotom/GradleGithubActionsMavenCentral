@@ -1,9 +1,13 @@
 name: Publish package to the Maven Central Repository
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - 'main'
+      - 'master'
+      - 'releases/**'
+    paths:
+      - 'gradle.properties'
+      - 'build.gradle'
     
 jobs:
   build:
