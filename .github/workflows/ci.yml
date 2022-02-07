@@ -104,6 +104,27 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      #Modify gradle.build to inject nexus-staging plugin if not present
+      - name: Modify gradle.build
+        run: |
+          if ! grep -q "io.codearte.nexus-staging" "build.gradle"; then
+                  # Inject plugin
+                  sed -i '' '/plugins {/ a\
+                  id "io.codearte.nexus-staging" version "0.30.0"\n' "build.gradle"
+                  if ! grep -q "plugins {" "./build.gradle"; then
+                          echo "plugins {\
+          \n\tid \"io.codearte.nexus-staging\" version \"0.30.0\"
+          \n}\n" >> ./build.gradle
+                  fi
+                  # Inject plugin code
+                  echo "nexusStaging {\
+          \n\tserverUrl = \"https://s01.oss.sonatype.org/service/local/\"\
+          \n\tusername = findProperty(\"ossrhUsername\") ?: System.getenv(\"OSSRH_USERNAME\")\
+          \n\tpassword = findProperty(\"ossrhPassword\") ?: System.getenv(\"OSSRH_PASSWORD\")\
+          \n\tpackageGroup = \"io.github.hrdlotom\"\
+          \n}\n" >> "build.gradle"
+          fi
+
       #Close and Release project in Sonatype
       - name: Close and Release
         run: ./gradlew closeAndReleaseRepository
