@@ -2,10 +2,11 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'signing'
+    id "io.codearte.nexus-staging" version "0.30.0"
 }
 
 group 'io.github.hrdlotom'
-version '0.1.6'
+version '0.1.7'
 
 repositories {
     mavenCentral()
@@ -25,6 +26,13 @@ task sourcesJar(type: Jar) {
 task javadocJar(type: Jar) {
     from javadoc
     archiveClassifier = 'javadoc'
+}
+
+nexusStaging {
+    serverUrl = "https://s01.oss.sonatype.org/service/local/" //required only for projects registered in Sonatype after 2021-02-24
+    username = findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
+    password = findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
+    packageGroup = "io.github.hrdlotom"
 }
 
 publishing {
