@@ -13,11 +13,6 @@ repositories {
     maven { url 'http://packages.confluent.io/maven/' }
 }
 
-compileJava {
-    sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
-}
-
 task sourcesJar(type: Jar) {
     from sourceSets.main.allJava
     archiveClassifier = 'sources'
